@@ -5,17 +5,17 @@ import 'custom_stepper.dart';
 
 class BuildControl extends StatefulWidget {
   BuildControl(
-      {Key key,
-      @required this.ingredient,
-      @required this.currentValue,
-      @required this.addHandler,
-      @required this.removeHandler})
+      {Key? key,
+      required this.ingredient,
+      required this.currentValue,
+      required this.addHandler,
+      required this.removeHandler})
       : super(key: key);
 
   final IngredientsModel ingredient;
   final int currentValue;
-  final Function addHandler;
-  final Function removeHandler;
+  final Function? addHandler;
+  final Function? removeHandler;
   @override
   _BuildControlState createState() => _BuildControlState();
 }
@@ -36,7 +36,7 @@ class _BuildControlState extends State<BuildControl> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.ingredient.label,
+                      widget.ingredient.label!,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 18.0,
@@ -45,7 +45,7 @@ class _BuildControlState extends State<BuildControl> {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      "(\$" + "${widget.ingredient.price.toStringAsFixed(2)})",
+                      "(\$" + "${widget.ingredient.price!.toStringAsFixed(2)})",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15.0,

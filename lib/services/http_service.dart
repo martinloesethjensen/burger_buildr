@@ -1,47 +1,46 @@
 import 'dart:convert';
 
-import 'package:burger_buildr/models/dummy_data.dart';
 import 'package:burger_buildr/models/ingredients_model.dart';
 import 'package:burger_buildr/models/user_order_model.dart';
 import 'package:http/http.dart' as http;
 
 class HttpService {
-  static const Url = 'https://todo-flutter-8a80f.firebaseio.com';
-  Future<List<IngredientsModel>> sendData() async {
-    var body =
-        json.encode(List<dynamic>.from(dummyData.map((x) => x.toJson())));
+  static const Url =
+      'https://burgerbuilder-b9205-default-rtdb.europe-west1.firebasedatabase.app';
+  Future<bool> sendData(List<IngredientsModel> data) async {
+    final body = jsonEncode(data.map((e) => e.toJson()).toList());
 
-    final response = await http.put("$Url/burgeringredients.json", body: body);
-    final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
+    final uri = Uri.parse('$Url/burgeringredients.json');
+    final response = await http.put(uri, body: body);
 
-    return [];
+    return response.statusCode == 200;
   }
 
   Future<List<IngredientsModel>> fetchTheIngredients() async {
-    final response = await http.get("$Url/burgeringredients.json");
-
-    final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
-
-    return parsed
-        .map<IngredientsModel>((json) => IngredientsModel.fromJson(json))
-        .toList();
-  }
-
-//post Order
-  Future<String> purchaseContinue(UserOrderModel userOrderModel) async {
-    var body = json.encode(userOrderModel);
-
-    final response = await http.post("$Url/orders.json", body: body);
+    final uri = '$Url/burgeringredients.json';
+    final response = await http.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 CREATED response,
-      // then parse the JSON.
+      final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      return parsed
+          .map<IngredientsModel>((json) => IngredientsModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Could not fetch ingredients');
+    }
+  }
+
+  Future<String> purchaseContinue(UserOrderModel userOrderModel) async {
+    final body = jsonEncode(userOrderModel);
+
+    final uri = Uri.parse('$Url/orders.json');
+    final response = await http.post(uri, body: body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print(response.body);
       return response.body;
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to create ');
+      throw Exception('Failed to add order');
     }
   }
 }

@@ -3,9 +3,9 @@ import 'package:burger_buildr/widgets/burger_ingredient.dart';
 import 'package:flutter/material.dart';
 
 class Burger extends StatefulWidget {
-  final UserOrderModel userOrderModel;
+  final UserOrderModel? userOrderModel;
 
-  const Burger({Key key, this.userOrderModel}) : super(key: key);
+  const Burger({Key? key, this.userOrderModel}) : super(key: key);
 
   @override
   _BurgerState createState() => _BurgerState();
@@ -14,7 +14,7 @@ class Burger extends StatefulWidget {
 class _BurgerState extends State<Burger> {
   @override
   Widget build(BuildContext context) {
-    final userIngredients = widget.userOrderModel.userIngredients;
+    final userIngredients = widget.userOrderModel!.userIngredients;
     final emptyIngredients =
         userIngredients == null || userIngredients.length == 0;
     return Container(
@@ -40,12 +40,12 @@ class _BurgerState extends State<Burger> {
   }
 
   get transformedIngredients {
-    final userIngredients = widget.userOrderModel.userIngredients;
+    final userIngredients = widget.userOrderModel!.userIngredients!;
     List<Widget> ingredientsList = [];
     for (var selectedIngredient in userIngredients) {
-      for (var i = 0; i < selectedIngredient.count; i++) {
+      for (var i = 0; i < selectedIngredient!.count; i++) {
         ingredientsList.add(
-          BurgerIngredient(type: selectedIngredient.ingredient.name),
+          BurgerIngredient(type: selectedIngredient.ingredient!.name),
         );
       }
     }
@@ -55,7 +55,7 @@ class _BurgerState extends State<Burger> {
 
 class EmptyIngredients extends StatelessWidget {
   const EmptyIngredients({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

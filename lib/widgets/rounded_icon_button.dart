@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class RoundedIconButton extends StatelessWidget {
   RoundedIconButton({
-    @required this.icon,
-    @required this.onPress,
-    @required this.iconSize,
+    required this.icon,
+    required this.onPress,
+    required this.iconSize,
   });
 
   final IconData icon;
-  final Function onPress;
+  final Function? onPress;
   final double iconSize;
 
   @override
@@ -17,7 +17,7 @@ class RoundedIconButton extends StatelessWidget {
     return RawMaterialButton(
       constraints: BoxConstraints.tightFor(width: iconSize, height: iconSize),
       elevation: 6.0,
-      onPressed: onPress,
+      onPressed: onPress as void Function()?,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(iconSize * 0.2),
       ),

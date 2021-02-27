@@ -1,4 +1,3 @@
-import 'package:burger_buildr/models/dummy_data.dart';
 import 'package:burger_buildr/models/ingredients_model.dart';
 import 'package:burger_buildr/models/user_order_model.dart';
 import 'package:burger_buildr/screens/burger.dart';
@@ -8,7 +7,7 @@ import 'package:burger_buildr/widgets/build_controls.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+  Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -18,17 +17,18 @@ class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
   UserOrderModel userOrderModel = UserOrderModel(
-    customer: "sumith",
+    customer: "martin",
     userIngredients: [],
     totalPrice: 0,
   );
 
-  List<IngredientsModel> ingredients = [];
+  List<IngredientsModel>? ingredients = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _drawerKey, // assign key to Scaffold
       appBar: AppBar(
+        centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -38,34 +38,22 @@ class _HomeState extends State<Home> {
               height: 32,
             ),
             Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Burger Builder"))
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Burger Builder"),
+            )
           ],
         ),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 30.0,
-          color: Colors.white,
-          onPressed: () => _drawerKey.currentState.openDrawer(),
-        ),
         elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {},
-          ),
-        ],
       ),
       drawer: AppDrawer(),
       backgroundColor: Colors.white,
-      body: FutureBuilder<List<IngredientsModel>>(
+      body: FutureBuilder<List<IngredientsModel>?>(
         future: HttpService().fetchTheIngredients(),
         builder: (context, snapshot) {
+          if (snapshot.hasData) return mainView(snapshot.data);
           if (snapshot.hasError) print(snapshot.error);
 
-          return snapshot.hasData
-              ? mainView(snapshot.data)
-              : Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -88,15 +76,15 @@ class _HomeState extends State<Home> {
   }
 
   _addIngredientHandler(String name) {
-    var ingredient = ingredients.singleWhere((ing) => ing.name == name);
+    final ingredient = ingredients!.singleWhere((ing) => ing.name == name);
 
-    final foundIngredient = userOrderModel.userIngredients.singleWhere(
-      (element) => element.ingredient.name == name,
+    final foundIngredient = userOrderModel.userIngredients!.singleWhere(
+      ((element) => element?.ingredient?.name == name),
       orElse: () => null,
     );
     if (foundIngredient == null) {
       setState(() {
-        userOrderModel.userIngredients.add(
+        userOrderModel.userIngredients!.add(
           UserSelectedIngredientModel(ingredient: ingredient, count: 1),
         );
       });
@@ -106,15 +94,16 @@ class _HomeState extends State<Home> {
       });
     }
     setState(() {
-      userOrderModel.totalPrice = userOrderModel.totalPrice + ingredient.price;
+      userOrderModel.totalPrice =
+          userOrderModel.totalPrice! + ingredient.price!;
     });
   }
 
   _removeIngredientHandler(name) {
-    final ingredient = dummyData.singleWhere((ing) => ing.name == name);
+    final ingredient = ingredients!.singleWhere((ing) => ing.name == name);
 
-    final foundIngredient = userOrderModel.userIngredients.singleWhere(
-      (element) => element.ingredient.name == name,
+    final foundIngredient = userOrderModel.userIngredients!.singleWhere(
+      ((element) => element?.ingredient?.name == name),
       orElse: () => null,
     );
     if (foundIngredient != null) {
@@ -123,9 +112,10 @@ class _HomeState extends State<Home> {
       });
     }
     setState(() {
-      userOrderModel.totalPrice = userOrderModel.totalPrice - ingredient.price;
-      userOrderModel.userIngredients
-          .removeWhere((element) => element.count == 0);
+      userOrderModel.totalPrice =
+          userOrderModel.totalPrice! - ingredient.price!;
+      userOrderModel.userIngredients!
+          .removeWhere((element) => element!.count == 0);
     });
   }
 }

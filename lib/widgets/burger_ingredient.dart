@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class BurgerIngredient extends StatefulWidget {
-  final String type;
+  final String? type;
 
-  const BurgerIngredient({Key key, this.type}) : super(key: key);
+  const BurgerIngredient({Key? key, this.type}) : super(key: key);
 
   @override
   _BurgerIngredientState createState() => _BurgerIngredientState();
@@ -262,7 +262,7 @@ class _BurgerIngredientState extends State<BurgerIngredient> {
 
 class SeedsWidget extends StatelessWidget {
   const SeedsWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

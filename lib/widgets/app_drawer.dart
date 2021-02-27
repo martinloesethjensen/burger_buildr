@@ -1,3 +1,4 @@
+import 'package:burger_buildr/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -19,7 +20,10 @@ class _AppDrawerState extends State<AppDrawer> {
               height: 32,
             ),
             title: Text('Burger Builder'),
-            onTap: () {},
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            ),
           ),
           Divider(),
           ListTile(

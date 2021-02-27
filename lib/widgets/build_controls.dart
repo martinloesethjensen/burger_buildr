@@ -8,16 +8,16 @@ import 'build_control.dart';
 
 class BuildControls extends StatefulWidget {
   BuildControls(
-      {Key key,
+      {Key? key,
       this.userOrderModel,
       this.addHandler,
       this.removeHandler,
       this.ingredients})
       : super(key: key);
-  final UserOrderModel userOrderModel;
-  final Function addHandler;
-  final Function removeHandler;
-  final List<IngredientsModel> ingredients;
+  final UserOrderModel? userOrderModel;
+  final Function? addHandler;
+  final Function? removeHandler;
+  final List<IngredientsModel>? ingredients;
 
   @override
   _BuildControlsState createState() => _BuildControlsState();
@@ -26,7 +26,7 @@ class BuildControls extends StatefulWidget {
 class _BuildControlsState extends State<BuildControls> {
   @override
   Widget build(BuildContext context) {
-    final totalPrice = widget.userOrderModel.totalPrice;
+    final totalPrice = widget.userOrderModel!.totalPrice!;
     return Container(
       color:
           AppConstants.hexToColor(AppConstants.BUILD_CONTROLS_CONTAINER_COLOR),
@@ -78,7 +78,7 @@ class _BuildControlsState extends State<BuildControls> {
                         : AppConstants.BUTTON_BACKGROUND_COLOR,
                   ),
                 ),
-                elevation: MaterialStateProperty.resolveWith<double>(
+                elevation: MaterialStateProperty.resolveWith<double?>(
                     (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) return 16;
                   return null;
@@ -111,10 +111,12 @@ class _BuildControlsState extends State<BuildControls> {
   Widget buttonBar() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: widget.ingredients.map<Widget>((ingredient) {
-        final userIngredient = widget.userOrderModel?.userIngredients
-            ?.singleWhere((ing) => ing.ingredient.name == ingredient.name,
-                orElse: () => null);
+      children: widget.ingredients!.map<Widget>((ingredient) {
+        final userIngredient =
+            widget.userOrderModel?.userIngredients?.singleWhere(
+          (ing) => ing?.ingredient?.name == ingredient.name,
+          orElse: () => null,
+        );
 
         final currentCount = userIngredient?.count ?? 0;
 

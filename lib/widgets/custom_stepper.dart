@@ -4,14 +4,14 @@ import 'rounded_icon_button.dart';
 
 class CustomStepper extends StatefulWidget {
   CustomStepper({
-    @required this.lowerLimit,
-    @required this.upperLimit,
-    @required this.stepValue,
-    @required this.iconSize,
-    @required this.value,
-    @required this.name,
-    @required this.addHandler,
-    @required this.removeHandler,
+    required this.lowerLimit,
+    required this.upperLimit,
+    required this.stepValue,
+    required this.iconSize,
+    required this.value,
+    required this.name,
+    required this.addHandler,
+    required this.removeHandler,
   });
 
   final int lowerLimit;
@@ -19,15 +19,15 @@ class CustomStepper extends StatefulWidget {
   final int stepValue;
   final double iconSize;
   final int value;
-  final String name;
-  final Function addHandler;
-  final Function removeHandler;
+  final String? name;
+  final Function? addHandler;
+  final Function? removeHandler;
   @override
   _CustomStepperState createState() => _CustomStepperState();
 }
 
 class _CustomStepperState extends State<CustomStepper> {
-  int value;
+  late int value;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _CustomStepperState extends State<CustomStepper> {
               ? null
               : () {
                   _setValue();
-                  widget.removeHandler(widget.name);
+                  widget.removeHandler!(widget.name);
                 },
         ),
         Container(
@@ -67,7 +67,7 @@ class _CustomStepperState extends State<CustomStepper> {
               ? null
               : () {
                   _setValue();
-                  widget.addHandler(widget.name);
+                  widget.addHandler!(widget.name);
                 },
         ),
       ],

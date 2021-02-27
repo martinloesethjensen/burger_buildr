@@ -4,14 +4,23 @@ import 'package:burger_buildr/services/http_service.dart';
 import 'package:flutter/material.dart';
 
 class OrderSummary extends StatefulWidget {
-  OrderSummary({Key key, @required this.userOrderModel}) : super(key: key);
-  UserOrderModel userOrderModel;
+  final UserOrderModel? userOrderModel;
+
+  OrderSummary({Key? key, required this.userOrderModel}) : super(key: key);
+
   @override
   _OrderSummaryState createState() => _OrderSummaryState();
 }
 
 class _OrderSummaryState extends State<OrderSummary> {
   bool visible = false;
+  UserOrderModel? userOrderModel;
+
+  @override
+  void initState() {
+    userOrderModel = widget.userOrderModel;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +56,10 @@ class _OrderSummaryState extends State<OrderSummary> {
             ),
             Expanded(
               child: ListView.separated(
-                itemCount: widget.userOrderModel.userIngredients.length,
+                itemCount: userOrderModel!.userIngredients!.length,
                 separatorBuilder: (_, __) => Divider(height: 0.5),
                 itemBuilder: (BuildContext context, int index) {
-                  var userIngredient =
-                      widget.userOrderModel.userIngredients[index];
+                  var userIngredient = userOrderModel!.userIngredients![index]!;
                   return ListTile(
                     leading: Icon(
                       Icons.check_circle_outline_outlined,
@@ -59,11 +67,11 @@ class _OrderSummaryState extends State<OrderSummary> {
                           AppConstants.APP_PRIMARY_COLOR),
                     ),
                     title: Text(
-                      '${userIngredient.ingredient.label} (${userIngredient.ingredient.price.toStringAsFixed(2)})  X ${userIngredient.count}',
+                      '${userIngredient.ingredient!.label} (${userIngredient.ingredient!.price!.toStringAsFixed(2)})  X ${userIngredient.count}',
                       style: TextStyle(fontSize: 15.0, color: Colors.black),
                     ),
                     trailing: Text(
-                      '${(userIngredient.ingredient.price * userIngredient.count).toStringAsFixed(2)} ',
+                      '${(userIngredient.ingredient!.price! * userIngredient.count).toStringAsFixed(2)} ',
                       style: TextStyle(fontSize: 15.0, color: Colors.black),
                     ),
                   );
@@ -72,7 +80,7 @@ class _OrderSummaryState extends State<OrderSummary> {
             ),
             Text(
               'Total Price : \$' +
-                  "${widget.userOrderModel.totalPrice.toStringAsFixed(2)}",
+                  "${userOrderModel!.totalPrice!.toStringAsFixed(2)}",
               style: TextStyle(
                   fontSize: 15.0,
                   color: AppConstants.hexToColor(
@@ -124,11 +132,11 @@ class _OrderSummaryState extends State<OrderSummary> {
                             visible = true;
                           });
                           var orderid = await HttpService()
-                              .purchaseContinue(widget.userOrderModel);
+                              .purchaseContinue(userOrderModel!);
                           if (orderid.length > 0) {
                             setState(() {
-                              widget.userOrderModel = new UserOrderModel(
-                                  customer: "Sumith",
+                              userOrderModel = UserOrderModel(
+                                  customer: "Martin",
                                   userIngredients: [],
                                   totalPrice: 0.00);
                             });

@@ -6,4 +6,3 @@ List<IngredientsModel> dummyData = [
   IngredientsModel(name: 'meat', label: 'Meat', price: 1.3),
   IngredientsModel(name: 'salad', label: 'Salad', price: 0.5),
 ];
-//final List<String> dummyDataIngredients = ["bacon", "cheese", "meat", "salad"];
