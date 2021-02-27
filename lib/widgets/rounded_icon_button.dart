@@ -2,8 +2,11 @@ import 'package:burger_buildr/helpers/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class RoundedIconButton extends StatelessWidget {
-  RoundedIconButton(
-      {@required this.icon, @required this.onPress, @required this.iconSize});
+  RoundedIconButton({
+    @required this.icon,
+    @required this.onPress,
+    @required this.iconSize,
+  });
 
   final IconData icon;
   final Function onPress;
@@ -16,7 +19,8 @@ class RoundedIconButton extends StatelessWidget {
       elevation: 6.0,
       onPressed: onPress,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(iconSize * 0.2)),
+        borderRadius: BorderRadius.circular(iconSize * 0.2),
+      ),
       fillColor: AppConstants.hexToColor(AppConstants.BUTTON_COLOR),
       child: Icon(
         icon,

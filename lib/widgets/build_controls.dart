@@ -1,5 +1,4 @@
 import 'package:burger_buildr/helpers/app_constants.dart';
-import 'package:burger_buildr/models/dummy_data.dart';
 import 'package:burger_buildr/models/ingredients_model.dart';
 import 'package:burger_buildr/models/user_order_model.dart';
 import 'package:burger_buildr/screens/order_summary.dart';
@@ -63,7 +62,28 @@ class _BuildControlsState extends State<BuildControls> {
           buttonBar(),
           Align(
             alignment: Alignment.bottomCenter,
-            child: RaisedButton(
+            child: ElevatedButton(
+              style: ButtonStyle(
+                textStyle: MaterialStateProperty.all(
+                  TextStyle(
+                    color: AppConstants.hexToColor(
+                      AppConstants.BUTTON_TEXT_COLOR,
+                    ),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  AppConstants.hexToColor(
+                    totalPrice <= 0
+                        ? AppConstants.BUTTON_COLOR
+                        : AppConstants.BUTTON_BACKGROUND_COLOR,
+                  ),
+                ),
+                elevation: MaterialStateProperty.resolveWith<double>(
+                    (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) return 16;
+                  return null;
+                }),
+              ),
               onPressed: totalPrice <= 0
                   ? null
                   : () {
@@ -80,13 +100,9 @@ class _BuildControlsState extends State<BuildControls> {
                       );
                     },
               child: const Text('ORDER NOW', style: TextStyle(fontSize: 20)),
-              color:
-                  AppConstants.hexToColor(AppConstants.BUTTON_BACKGROUND_COLOR),
-              textColor:
-                  AppConstants.hexToColor(AppConstants.BUTTON_TEXT_COLOR),
-              elevation: 5,
             ),
-          )
+          ),
+          SizedBox(height: 15.0),
         ],
       ),
     );

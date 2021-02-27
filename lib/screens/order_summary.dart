@@ -87,12 +87,18 @@ class _OrderSummaryState extends State<OrderSummary> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                FlatButton(
+                TextButton(
                   child: Text(
                     'CANCEL',
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: AppConstants.hexToColor(AppConstants.BUTTON_COLOR),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      AppConstants.hexToColor(
+                        AppConstants.BUTTON_COLOR,
+                      ),
+                    ),
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
                 visible
@@ -101,13 +107,17 @@ class _OrderSummaryState extends State<OrderSummary> {
                           AppConstants.APP_PRIMARY_COLOR,
                         ),
                       )
-                    : FlatButton(
+                    : TextButton(
                         child: Text(
                           'CONTINUE',
                           style: TextStyle(color: Colors.white),
                         ),
-                        color: AppConstants.hexToColor(
-                          AppConstants.BUTTON_COLOR_CONTINUE,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            AppConstants.hexToColor(
+                              AppConstants.BUTTON_COLOR_CONTINUE,
+                            ),
+                          ),
                         ),
                         onPressed: () async {
                           setState(() {
@@ -119,8 +129,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                             setState(() {
                               widget.userOrderModel = new UserOrderModel(
                                   customer: "Sumith",
-                                  userIngredients:
-                                      new List<UserSelectedIngredientModel>(),
+                                  userIngredients: [],
                                   totalPrice: 0.00);
                             });
                             SnackBar(

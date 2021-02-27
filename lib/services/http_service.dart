@@ -14,7 +14,7 @@ class HttpService {
     final response = await http.put("$Url/burgeringredients.json", body: body);
     final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
 
-    return new List<IngredientsModel>();
+    return [];
   }
 
   Future<List<IngredientsModel>> fetchTheIngredients() async {
