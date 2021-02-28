@@ -1,6 +1,8 @@
 import 'package:burger_buildr/models/user_order_model.dart';
+import 'package:burger_buildr/providers/user_order_provider.dart';
 import 'package:burger_buildr/widgets/burger_ingredient.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Burger extends StatefulWidget {
   final UserOrderModel? userOrderModel;
@@ -14,9 +16,9 @@ class Burger extends StatefulWidget {
 class _BurgerState extends State<Burger> {
   @override
   Widget build(BuildContext context) {
-    final userIngredients = widget.userOrderModel!.userIngredients;
     final emptyIngredients =
-        userIngredients == null || userIngredients.length == 0;
+        Provider.of<UserOrderProvider>(context, listen: true)
+            .isEmptyIngredients;
     return Container(
       child: Expanded(
         child: Padding(
@@ -40,9 +42,11 @@ class _BurgerState extends State<Burger> {
   }
 
   get transformedIngredients {
-    final userIngredients = widget.userOrderModel!.userIngredients!;
+    final myuserOrderModel =
+        Provider.of<UserOrderProvider>(context).userOrderModel;
+    final userIngredients = myuserOrderModel.userIngredients;
     List<Widget> ingredientsList = [];
-    for (var selectedIngredient in userIngredients) {
+    for (var selectedIngredient in userIngredients!) {
       for (var i = 0; i < selectedIngredient!.count; i++) {
         ingredientsList.add(
           BurgerIngredient(type: selectedIngredient.ingredient!.name),

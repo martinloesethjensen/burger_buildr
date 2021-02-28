@@ -47,7 +47,7 @@ class _CustomStepperState extends State<CustomStepper> {
               ? null
               : () {
                   _setValue();
-                  widget.removeHandler!(widget.name);
+                  widget.removeHandler!();
                 },
         ),
         Container(
@@ -67,7 +67,7 @@ class _CustomStepperState extends State<CustomStepper> {
               ? null
               : () {
                   _setValue();
-                  widget.addHandler!(widget.name);
+                  widget.addHandler!();
                 },
         ),
       ],

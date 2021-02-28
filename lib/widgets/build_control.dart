@@ -1,21 +1,16 @@
 import 'package:burger_buildr/models/ingredients_model.dart';
+import 'package:burger_buildr/providers/user_order_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'custom_stepper.dart';
 
 class BuildControl extends StatefulWidget {
-  BuildControl(
-      {Key? key,
-      required this.ingredient,
-      required this.currentValue,
-      required this.addHandler,
-      required this.removeHandler})
+  BuildControl({Key? key, required this.ingredient, required this.currentValue})
       : super(key: key);
 
   final IngredientsModel ingredient;
   final int currentValue;
-  final Function? addHandler;
-  final Function? removeHandler;
   @override
   _BuildControlState createState() => _BuildControlState();
 }
@@ -62,8 +57,12 @@ class _BuildControlState extends State<BuildControl> {
                   stepValue: 1,
                   iconSize: 25,
                   name: widget.ingredient.name,
-                  addHandler: widget.addHandler,
-                  removeHandler: widget.removeHandler,
+                  addHandler: () =>
+                      Provider.of<UserOrderProvider>(context, listen: false)
+                          .addIngredientHandler(widget.ingredient.name!),
+                  removeHandler: () =>
+                      Provider.of<UserOrderProvider>(context, listen: false)
+                          .removeIngredientHandler(widget.ingredient.name!),
                 )
               ],
             ),
