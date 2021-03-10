@@ -8,6 +8,8 @@ Access it [here](https://martinloesethjensen.github.io/burger_buildr/)
 
 ## Getting Started
 
+Remember to have peanut activated: `flutter pub global activate peanut`
+
 To generate and publish to GitHub pages use: 
 
 - `make gh-pages`
