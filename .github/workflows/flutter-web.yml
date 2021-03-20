@@ -23,3 +23,8 @@ jobs:
     - run: flutter pub get
     - run: flutter test
     - run: flutter build web --release
+    - name: Deploy to Skynet
+      uses: kwypchlo/deploy-to-skynet-action@main
+      with:
+        upload-dir: build/web
+        github-token: ${{ secrets.GITHUB_TOKEN }}
