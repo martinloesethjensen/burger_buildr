@@ -5,19 +5,19 @@ import 'package:burger_buildr/models/user_order_model.dart';
 import 'package:http/http.dart' as http;
 
 class HttpService {
-  static const Url =
+  static const url =
       'https://burgerbuilder-b9205-default-rtdb.europe-west1.firebasedatabase.app';
   Future<bool> sendData(List<IngredientsModel> data) async {
     final body = jsonEncode(data.map((e) => e.toJson()).toList());
 
-    final uri = Uri.parse('$Url/burgeringredients.json');
+    final uri = Uri.parse('$url/burgeringredients.json');
     final response = await http.put(uri, body: body);
 
     return response.statusCode == 200;
   }
 
   Future<List<IngredientsModel>> fetchTheIngredients() async {
-    final uri = '$Url/burgeringredients.json';
+    final uri = '$url/burgeringredients.json';
     final response = await http.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
@@ -33,7 +33,7 @@ class HttpService {
   Future<String> purchaseContinue(UserOrderModel userOrderModel) async {
     final body = jsonEncode(userOrderModel);
 
-    final uri = Uri.parse('$Url/orders.json');
+    final uri = Uri.parse('$url/orders.json');
     final response = await http.post(uri, body: body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
