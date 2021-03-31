@@ -17,3 +17,7 @@ To generate and publish to GitHub pages use:
 or 
 
 - `flutter pub global run peanut:peanut`
+
+## Deployment on Skynet
+
+I use [deploy to skynet action](https://github.com/kwypchlo/deploy-to-skynet-action) to automatically deploy to skynet for the hosting of web app.
